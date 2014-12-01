@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  PickMyMovie
+
+  Created by Niklas Persson on 11/25/14.
+  Copyright (c) 2014 NPFLASH. All rights reserved.
+*/
+
+"TRY_AGAIN" = "Please try again";
+"ERROR" = "An error occured";
+"NO_DATA" = "You have not added any movies to your list";
+"WATCH_MOVIE" = "You should watch: ";
+"SELECTED_MOVIE" = "Selected movie";
+"DONE" = "Done";
+"EDIT" = "Edit";
+"GRADE" = "Grade";
+"EMPTY" = "EMPTY TEXTFIELD";
+"EMPTY_DESC" = "The searchfield is empty";
+"OK" = "OK";
+"UPDATING_DATA" = "Updating data";
