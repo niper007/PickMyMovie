@@ -9,12 +9,30 @@
 #import "PMApiEngine.h"
 #import "PMCoreDataEngine.h"
 
+#define ApiDomain @"http://api.themoviedb.org/3"
+
+#define SerchEndPoint @"/search/movie"
+#define MovieEndPoint @"/movie"
+#define VideoEndPoint @"/videos"
+
 #define SearchUrl @"http://api.themoviedb.org/3/search/movie"
 #define MovieUrl @"http://api.themoviedb.org/3/movie/"
+
+
+
 #define API_KEY_DEV @"07818be4aa5cd458ed604c904737e592"
 #define Results @"results"
 #define Query @"query"
 #define ApiKey @"api_key"
+
+
+// domain
+
+// endpoint
+
+// parameter
+
+// GET eller post
 
 @interface PMApiEngine ()
 
@@ -48,7 +66,7 @@
             //function call to a helper outside the scope of this view
         });
         dispatch_async(myQueue, ^{
-           
+            
             NSDictionary *results = responseObject[Results];
             self.list = [NSMutableArray new];
             for (NSDictionary *movie in results) {
@@ -74,6 +92,24 @@
     [self.getDataFromServer get:movieUrl parameters:parameters success:^(id responseObject) {
         
         PMSearchModel *model = [[PMSearchModel alloc]initWithObject:responseObject];
+        
+        if (successBlock) {
+            successBlock(model);
+        }
+        
+    } failure:failureBlock];
+    
+}
+
+-(void)getVideoWithModel:(PMSearchModel *)model success:(videoBlock)successBlock failure:(failureBlock)failureBlock {
+    
+    NSDictionary *parameters = @{ApiKey: API_KEY_DEV};
+    
+    NSString *videoUrl = [NSString stringWithFormat:@"%@%@/%d%@",ApiDomain,MovieEndPoint,model.movieId,VideoEndPoint];
+    [self.getDataFromServer get:videoUrl parameters:parameters success:^(id responseObject) {
+        
+        NSArray *results = [responseObject objectForKey:@"results"];
+        [model addVideoWithKeys:results];
         
         if (successBlock) {
             successBlock(model);
