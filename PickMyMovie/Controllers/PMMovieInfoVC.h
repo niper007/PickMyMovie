@@ -17,5 +17,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *releaseDateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *averageVoteLabel;
 @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
+- (IBAction)playButtonPressed:(id)sender;
 
 @end
