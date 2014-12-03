@@ -14,17 +14,13 @@
 #import "PMSearchModel.h"
 #import "PMCoreDataEngine.h"
 
-
 #define MovieSearchCell @"MovieSearchCell"
 #define ChosenMovieSegue @"ChosenMovie"
 
-
 @interface PMMovieSearchVC () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
 
-@property (nonatomic,strong) NSArray *testPhotos;
-@property (nonatomic,strong) NSString *selectedRecipe;
 @property (nonatomic,strong) NSArray *movieData;
-@property (nonatomic,strong) PMApiEngine *callToServerEngine;
+@property (nonatomic,strong) PMApiEngine *apiEngine;
 @property (nonatomic,strong) PMSearchModel *selectedMovie;
 @property (nonatomic,strong) PMCoreDataEngine *databaseEngine;
 
@@ -43,7 +39,7 @@
     [super viewDidLoad];
     
     //Initiate classes
-    self.callToServerEngine = [PMApiEngine new];
+    self.apiEngine = [PMApiEngine new];
     self.databaseEngine = [PMCoreDataEngine new];
     
 }
@@ -51,7 +47,6 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self reloadData];
-    
 }
 
 #pragma mark Get data from API
@@ -63,7 +58,7 @@
     //Show loader
     [self showLoader];
     __block PMMovieSearchVC *weakself = self;
-    [self.callToServerEngine searchMovieWithKeyword:searchString success:^(NSArray *movieObjects) {
+    [self.apiEngine searchMovieWithKeyword:searchString success:^(NSArray *movieObjects) {
         weakself.movieData = movieObjects;
         [weakself hideLoader];
         
@@ -118,11 +113,19 @@
 -(void)addMovieToList:(UIButton *)sender{
     
     PMSearchModel *model = self.movieData[sender.tag];
-    [self.callToServerEngine getMovieWithId:model.movieId success:^(PMSearchModel *movieObject) {
-        
-        [self.databaseEngine addMovie:movieObject];
-        [self reloadData];
-        
+    [self.apiEngine getMovieWithId:model.movieId success:^(PMSearchModel *movieObject) {
+        [self.apiEngine getVideoWithModel:movieObject success:^(PMSearchModel *modelWithKeys) {
+            [self.databaseEngine addMovie:modelWithKeys];
+            [self reloadData];
+        } failure:^(NSError *error) {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TRY_AGAIN", nil)
+                                                              message:NSLocalizedString(@"ERROR", nil)
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                    otherButtonTitles:nil];
+            
+            [message show];
+        }];
     } failure:^(NSError *error) {
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TRY_AGAIN", nil)
                                                           message:NSLocalizedString(@"ERROR", nil)
@@ -171,12 +174,12 @@
         //function call to a helper outside the scope of this view
     });
     dispatch_async(myQueue, ^{
-         self.movieData = [self.callToServerEngine checkList];
+        self.movieData = [self.apiEngine checkList];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
         });
     });
-
+    
 }
 
 #pragma mark Loaders
