@@ -19,6 +19,7 @@
 #define GenresJsonKey @"genres"
 #define VoteAverageJsonKey @"vote_average"
 #define NameJsonKey @"name"
+#define KeyJsonKey @"key"
 
 @implementation PMSearchModel
 
@@ -37,13 +38,13 @@
             }else if ([key isEqual:TitleJsonKey]) {
                 self.title = object[key];
             }else if ([key isEqual:VoteAverageJsonKey]) {
-                self.voteAverage = [object[key]intValue];
+                self.voteAverage = [object[key]floatValue];
             }else if ([key isEqual:ReleaseDateJsonKey]) {
                 self.releaseDate = object[key];
             }else if ([key isEqual:OverviewJsonKey]) {
                 self.overview = object[key];
             }else if ([key isEqual:GenresJsonKey]) {
-     
+                
                 NSMutableString *string =  [NSMutableString new];
                 NSArray *genreList = [object valueForKey:key];
                 
@@ -67,7 +68,7 @@
 - (id)initWithContext:(NSManagedObject *)object attributes:(NSDictionary *)attributes {
     if (self = [super init]) {
         for (NSString *key in attributes) {
-  
+            
             if ([key isEqual:MovieIdKey]) {
                 self.movieId = [[object valueForKey: key] intValue];
             }else if ([key isEqual:ImageKey]) {
@@ -75,7 +76,7 @@
             }else if ([key isEqual:TitleKey]) {
                 self.title = [object valueForKey: key];
             }else if ([key isEqual:VoteAverageKey]) {
-                self.voteAverage = [[object valueForKey: key]intValue];
+                self.voteAverage = [[object valueForKey: key]floatValue];
             }else if ([key isEqual:ReleaseDateKey]) {
                 self.releaseDate = [object valueForKey: key];
             }else if ([key isEqual:OverviewKey]) {
@@ -121,4 +122,30 @@
     NSString *imagepath = [NSString stringWithFormat:@"%@%@",ImagePathTmdbBig,self.image];
     return  [NSURL URLWithString:imagepath];
 }
+
+-(NSString *)voteAverageRounded{
+    if (self.voteAverage == (int)self.voteAverage) {
+        return [NSString stringWithFormat:@"%d",(int)self.voteAverage];
+    }else{
+        NSString *voteAverage = [NSString stringWithFormat:@"%.1f",self.voteAverage];
+        return voteAverage;
+    }
+    
+}
+
+-(void)addVideoWithKeys:(NSArray *)keys {
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for (int i = 0;  i < [keys count]; i++){
+        
+        NSString *key = [[keys objectAtIndex:i]objectForKey:@"key"];
+        [array addObject:key];
+        
+    }
+    
+    self.videoKeys = array;
+    
+}
+
+
 @end
