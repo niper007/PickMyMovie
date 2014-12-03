@@ -36,6 +36,19 @@
     [newMovie setValue:model.genres forKey:GenresKey];
     [newMovie setValue:model.overview forKey:OverviewKey];
     
+    NSEntityDescription *entityDescVideo = [NSEntityDescription entityForName:@"VideoKey" inManagedObjectContext:self.managedObjectContext];
+    
+    NSMutableSet *set = [NSMutableSet new];
+    for (NSString *keyString in model.videoKeys) {
+        NSManagedObject *videos = [[NSManagedObject alloc]initWithEntity:entityDescVideo insertIntoManagedObjectContext:self.managedObjectContext];
+        
+        [videos setValue:keyString forKey:@"key"];
+        //[videos setValue:model forKey:@"movie"];
+        [set addObject:videos];
+    }
+    [newMovie setValue:set forKey:@"videoKeys"];
+    
+    
     //Error check
     NSError *error;
     if(![self.managedObjectContext save:&error]){
@@ -87,6 +100,7 @@
     
     if (items.count > 0) {
         NSManagedObject *firstObject = items[0];
+        
         return firstObject;
     }
     return nil;
@@ -107,6 +121,9 @@
 -(void)removeMovieWithId:(int)movieId{
     
     NSManagedObject *object = [self movieContextWithId:movieId];
+    if (object == nil) {
+        return;
+    }
     [self.managedObjectContext deleteObject:object];
     
     NSError *error;
