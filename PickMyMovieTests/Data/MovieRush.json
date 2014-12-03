@@ -1,0 +1,85 @@
+{
+    "runtime" : 123,
+    "status" : "Released",
+    "backdrop_path" : "/w41zFKYTsq4wf5QnQJWMXuzWl2F.jpg",
+    "overview" : "A biography of Formula 1 champion driver Niki Lauda and the 1976 crash that almost claimed his life. Mere weeks after the accident, he got behind the wheel to challenge his rival, James Hunt.",
+    "title" : "Rush",
+    "vote_count" : 536,
+    "tagline" : "Everyone's driven by something.",
+    "belongs_to_collection" : null,
+    "original_title" : "Rush",
+    "poster_path" : "/cjEepHZOZAwmK6nAj5jis6HV75E.jpg",
+    "production_countries" : [
+                              {
+                              "iso_3166_1" : "DE",
+                              "name" : "Germany"
+                              },
+                              {
+                              "iso_3166_1" : "GB",
+                              "name" : "United Kingdom"
+                              }
+                              ],
+    "revenue" : 0,
+    "homepage" : "",
+    "imdb_id" : "tt1979320",
+    "id" : 96721,
+    "release_date" : "2013-09-27",
+    "budget" : 38000000,
+    "popularity" : 2.25419931252507,
+    "genres" : [
+                {
+                "id" : 28,
+                "name" : "Action"
+                },
+                {
+                "id" : 18,
+                "name" : "Drama"
+                },
+                {
+                "id" : 9805,
+                "name" : "Sport"
+                }
+                ],
+    "production_companies" : [
+                              {
+                              "id" : 31922,
+                              "name" : "Double Negative"
+                              },
+                              {
+                              "id" : 11448,
+                              "name" : "Exclusive Media Group"
+                              },
+                              {
+                              "id" : 10246,
+                              "name" : "Cross Creek Pictures"
+                              },
+                              {
+                              "id" : 163,
+                              "name" : "Revolution Films"
+                              },
+                              {
+                              "id" : 10163,
+                              "name" : "Working Title Films"
+                              }
+                              ],
+    "adult" : false,
+    "spoken_languages" : [
+                          {
+                          "iso_639_1" : "en",
+                          "name" : "English"
+                          },
+                          {
+                          "iso_639_1" : "de",
+                          "name" : "Deutsch"
+                          },
+                          {
+                          "iso_639_1" : "it",
+                          "name" : "Italiano"
+                          },
+                          {
+                          "iso_639_1" : "fr",
+                          "name" : "Français"
+                          }
+                          ],
+    "vote_average" : 8
+}
